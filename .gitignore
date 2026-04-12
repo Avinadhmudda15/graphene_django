@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments (never commit — recreate with: python -m venv venv)
+venv/
+.venv/
+env/
+
+# Django / local
+*.log
+db.sqlite3
+media/
+staticfiles/
+.env
+*.local
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Large sensor datasets (use seed_data or Canvas instructions; do not commit CSV dumps)
+GTLB-Data*/
+*.zip
