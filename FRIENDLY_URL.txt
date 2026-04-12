@@ -1,0 +1,43 @@
+================================================================================
+  SENSORE — use a NAME in the browser (same PC only)
+================================================================================
+
+Instead of typing numbers (127.0.0.1), you can use:
+
+    http://sensore.local:8000/
+
+ONE-TIME SETUP (Windows, must edit as Administrator):
+
+  1. Open Notepad as Administrator
+  2. File -> Open -> go to:
+       C:\Windows\System32\drivers\etc\
+  3. Change filter to "All files", open file: hosts
+  4. Add this line at the bottom:
+
+       127.0.0.1    sensore.local
+
+  5. Save. Then in Chrome or Edge open:
+
+       http://sensore.local:8000/
+
+Your server must still be running (run_dev.bat or: python manage.py runserver 0.0.0.0:8000).
+
+================================================================================
+  PHONE / ANOTHER LAPTOP (same Wi-Fi) — if it "times out"
+================================================================================
+
+  1. On the PC that runs Django, open PowerShell and run:  ipconfig
+     Find "IPv4 Address" under your Wi-Fi adapter (e.g. 192.168.0.15).
+     It is NOT always 192.168.1.10 — use YOUR number.
+
+  2. Run scripts\allow_django_port.ps1 as Administrator (allows firewall).
+
+  3. Start:  python manage.py runserver 0.0.0.0:8000
+
+  4. On the phone browser:  http://YOUR_IPV4:8000/
+
+  5. Optional: add CSRF origin for login on that URL (PowerShell before runserver):
+     $env:DJANGO_CSRF_EXTRA_ORIGINS="http://192.168.0.15:8000"
+     (replace with your real IPv4)
+
+================================================================================

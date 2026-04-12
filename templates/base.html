@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Graphene Trace{% endblock %}</title>
+  <title>{% block title %}{{ SITE_TITLE }}{% endblock %}</title>
+  <meta name="application-name" content="{{ SITE_NAME }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -20,7 +21,7 @@
       <polygon points="16,8 26,24 6,24" fill="none" stroke="#00d4aa" stroke-width="1" opacity="0.4"/>
       <circle cx="16" cy="16" r="3" fill="#00d4aa"/>
     </svg>
-    <span class="logo-text">Graphene<br><strong>Trace</strong></span>
+    <span class="logo-text">{{ SITE_NAME }}<br><span style="font-size:0.72em;opacity:0.85;font-weight:500">Graphene Trace</span></span>
   </div>
 
   <nav class="sidebar-nav">

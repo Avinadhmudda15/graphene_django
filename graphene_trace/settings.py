@@ -8,7 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-graphene-trace-dev-key-change-in-production-2024'
 DEBUG = True
+# Dev: allow any host header (localhost, 127.0.0.1, your LAN IP, custom names in hosts file)
 ALLOWED_HOSTS = ['*']
+
+# Shown in browser tab and sidebar (case study product name)
+SITE_NAME = 'Sensore'
+SITE_TITLE = 'Sensore — Graphene Trace'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -47,6 +52,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'graphene_trace.context_processors.site_branding',
             ],
         },
     },
@@ -91,3 +97,14 @@ PRESSURE_ALERT_THRESHOLD = 500   # trigger alert above this
 CONTACT_THRESHOLD        = 50    # pixel counts as "contact" above this
 MIN_REGION_PIXELS        = 10    # min connected pixels for PPI
 DATA_UPLOAD_MAX_MB       = 200
+
+# Login/forms work when you open the app by these URLs (add LAN IP if you use phone on Wi‑Fi)
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://sensore.local:8000',
+]
+for _origin in os.environ.get('DJANGO_CSRF_EXTRA_ORIGINS', '').split(','):
+    _origin = _origin.strip()
+    if _origin:
+        CSRF_TRUSTED_ORIGINS.append(_origin)
