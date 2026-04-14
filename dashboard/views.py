@@ -82,13 +82,17 @@ class ClinicianDashboardView(View):
         profile = getattr(request.user, 'clinician_profile', None)
         if profile and profile.can_view_all_patients:
             patients = User.objects.filter(role='patient').order_by('last_name')
+            alerts_qs = Alert.objects.filter(
+                patient__role='patient'
+            )
         else:
             patients = User.objects.filter(
                 patient_profile__clinician=request.user).order_by('last_name')
+            alerts_qs = Alert.objects.filter(
+                patient__patient_profile__clinician=request.user
+            )
         # Collect recent alerts across all assigned patients
-        all_alerts = Alert.objects.filter(
-            patient__patient_profile__clinician=request.user
-        ).select_related('patient').order_by('-created_at')[:20]
+        all_alerts = alerts_qs.select_related('patient').order_by('-created_at')[:20]
         unread = all_alerts.filter(is_read=False).count()
         return render(request, 'clinician/dashboard.html', {
             'patients': patients,
@@ -124,6 +128,9 @@ class ClinicianPatientView(View):
 class ClinicianReplyView(View):
     def post(self, request, pk):
         comment = get_object_or_404(Comment, pk=pk)
+        if not request.user.can_access_patient_data(comment.patient):
+            messages.error(request, 'You cannot reply to this patient comment.')
+            return redirect('dashboard:clinician_home')
         reply   = request.POST.get('reply','').strip()
         if reply:
             comment.clinician_reply = reply
@@ -137,12 +144,15 @@ class ClinicianReplyView(View):
 @method_decorator([login_required, role_required('clinician')], name='dispatch')
 class ClinicianAlertsView(View):
     def get(self, request):
-        alerts = Alert.objects.filter(
-            patient__patient_profile__clinician=request.user
-        ).select_related('patient').order_by('-created_at')
-        Alert.objects.filter(
-            patient__patient_profile__clinician=request.user, is_read=False
-        ).update(is_read=True)
+        profile = getattr(request.user, 'clinician_profile', None)
+        if profile and profile.can_view_all_patients:
+            alerts_qs = Alert.objects.filter(patient__role='patient')
+        else:
+            alerts_qs = Alert.objects.filter(
+                patient__patient_profile__clinician=request.user
+            )
+        alerts = alerts_qs.select_related('patient').order_by('-created_at')
+        alerts_qs.filter(is_read=False).update(is_read=True)
         return render(request, 'clinician/alerts.html', {'alerts': alerts})
 
 

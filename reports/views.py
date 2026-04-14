@@ -85,12 +85,23 @@ class ReportView(View):
                 raise PermissionDenied()
         elif request.user.role == 'patient':
             patient = request.user
+        elif request.user.role == 'clinician':
+            # Show patient picker for clinician with no patient selected
+            profile = getattr(request.user, 'clinician_profile', None)
+            if profile and profile.can_view_all_patients:
+                patients = User.objects.filter(role='patient').order_by('last_name')
+            else:
+                patients = User.objects.filter(
+                    patient_profile__clinician=request.user).order_by('last_name')
+            return render(request, 'reports/patient_picker.html', {
+                'patients': patients, 'page': 'reports'})
         elif request.user.role == 'admin':
-            patient = User.objects.filter(role='patient').order_by('pk').first()
-            if patient is None:
-                return redirect('dashboard:admin_home')
+            # Show patient picker for admin with no patient selected
+            patients = User.objects.filter(role='patient').order_by('last_name')
+            return render(request, 'reports/patient_picker.html', {
+                'patients': patients, 'page': 'reports'})
         else:
-            return redirect('dashboard:clinician_home')
+            return redirect('dashboard:home')
 
         uid = patient.pk
         generated_date = date.today()

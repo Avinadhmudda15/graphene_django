@@ -24,6 +24,20 @@
   </div>
 </div>
 
+<!-- TIME-SERIES CHART (1h / 6h / 24h) — required by case study -->
+<div class="panel charts-panel">
+  <div class="panel-header">
+    <h3>Pressure Over Time</h3>
+    <div class="time-tabs">
+      <button class="tab-btn" data-hours="1">1h</button>
+      <button class="tab-btn active" data-hours="6">6h</button>
+      <button class="tab-btn" data-hours="24">24h</button>
+    </div>
+  </div>
+  <canvas id="peakChart"    height="120" style="padding:0 16px"></canvas>
+  <canvas id="contactChart" height="100" style="padding:0 16px;margin-top:12px"></canvas>
+</div>
+
 <!-- 7-DAY CHART -->
 <div class="panel">
   <div class="panel-header"><h3>7-Day Daily Summary</h3></div>
@@ -51,9 +65,15 @@
 </div>
 {% endblock %}
 {% block scripts %}
+{% load static %}
+<script src="{% static 'js/charts.js' %}"></script>
 {{ daily|json_script:"analytics-daily-chart" }}
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
+  // Time-series charts (1h/6h/24h) — uses same API as dashboard
+  const pid = {% if patient %}{{ patient.pk }}{% else %}null{% endif %};
+  ChartManager.init('peakChart','contactChart', 6, pid, '{% url "dashboard:api_metrics" %}');
+
   const daily = JSON.parse(document.getElementById('analytics-daily-chart').textContent);
   new Chart(document.getElementById('weeklyChart'),{
     type:'bar',

@@ -25,6 +25,10 @@
         <td><span class="badge-status {% if u.is_active %}status-done{% else %}status-error{% endif %}">{% if u.is_active %}Active{% else %}Inactive{% endif %}</span></td>
         <td>
           <a href="{% url 'accounts:edit_user' u.pk %}" class="btn btn-sm btn-ghost">Edit</a>
+          {% if u.role == 'patient' %}
+          <a href="{% url 'analytics:patient_analytics' u.pk %}" class="btn btn-sm btn-ghost">Analytics</a>
+          <a href="{% url 'reports:patient_report' u.pk %}" class="btn btn-sm btn-ghost">Report</a>
+          {% endif %}
           {% if u.pk != request.user.pk %}
           <form method="post" action="{% url 'accounts:delete_user' u.pk %}" style="display:inline" onsubmit="return confirm('Delete {{ u.username }}?')">
             {% csrf_token %}<button type="submit" class="btn btn-sm btn-danger">Delete</button>
