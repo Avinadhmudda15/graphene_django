@@ -3,7 +3,7 @@
 **Module:** MOD004364 Advanced Web Solutions
 **Project:** Graphene Trace — Sensore (Django)
 **Repository:** https://github.com/Avinadhmudda15/graphene_django
-**Submitted:** April 2026
+**Submitted:** 
 
 ---
 
@@ -17,7 +17,7 @@
 ## Sprint / Week Log
 
 ### Week 1 — Project Setup and Database Design
-**Date:** October 2025
+**Date:** 
 **Goal:** Set up the Django project and design the database structure.
 
 **What I did:**
@@ -36,7 +36,7 @@
 ---
 
 ### Week 2 — Authentication and Role-Based Access Control
-**Date:** October 2025
+**Date:** 
 **Goal:** Implement login/logout and RBAC so each role only sees what they should.
 
 **What I did:**
@@ -55,7 +55,7 @@
 ---
 
 ### Week 3 — CSV Parser and PPI Algorithm
-**Date:** October 2025
+**Date:** 
 **Goal:** Parse the 32x32 sensor CSV files and compute the required metrics.
 
 **What I did:**
@@ -78,7 +78,7 @@
 ---
 
 ### Week 4 — Frame Storage, Alert System, and CSV Ingestion
-**Date:** November 2025
+**Date:** 
 **Goal:** Store parsed frames in the database and generate alerts automatically.
 
 **What I did:**
@@ -100,7 +100,7 @@
 ---
 
 ### Week 5 — Patient Dashboard and Heatmap
-**Date:** November 2025
+**Date:** 
 **Goal:** Build the patient-facing dashboard with the live heatmap visualisation.
 
 **What I did:**
@@ -121,7 +121,7 @@
 ---
 
 ### Week 6 — Time-Series Charts (1h / 6h / 24h)
-**Date:** November 2025
+**Date:** 
 **Goal:** Add Chart.js line graphs with selectable time periods as required by the case study.
 
 **What I did:**
@@ -141,7 +141,7 @@
 ---
 
 ### Week 7 — Clinician Dashboard and Patient Detail
-**Date:** November 2025
+**Date:** 
 **Goal:** Build the clinician-facing views with patient list, alerts, and full patient detail.
 
 **What I did:**
@@ -159,7 +159,7 @@
 ---
 
 ### Week 8 — Comment System
-**Date:** December 2025
+**Date:** 
 **Goal:** Implement the patient comment and clinician reply system required by the case study.
 
 **What I did:**
@@ -178,7 +178,7 @@
 ---
 
 ### Week 9 — Reports Module
-**Date:** December 2025
+**Date:** 
 **Goal:** Build the daily report with day-on-day comparison as required by the case study.
 
 **What I did:**
@@ -200,7 +200,7 @@
 ---
 
 ### Week 10 — Analytics Page and Risk Score
-**Date:** December 2025
+**Date:** 
 **Goal:** Build the analytics page with risk scoring and time-series charts.
 
 **What I did:**
@@ -220,7 +220,7 @@
 ---
 
 ### Week 11 — Plain-English Explanation and Seed Data Command
-**Date:** January 2026
+**Date:** 
 **Goal:** Add patient-friendly data explanation and automate demo data loading.
 
 **What I did:**
@@ -240,7 +240,7 @@
 ---
 
 ### Week 12 — Testing, Bug Fixes, and Presentation Prep
-**Date:** January 2026
+**Date:** 
 **Goal:** Test all features end-to-end, fix bugs, and prepare for the presentation.
 
 **What I did:**
