@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Select Patient — Analytics{% endblock %}
+{% block page_title %}Analytics — Select Patient{% endblock %}
+{% block content %}
+<div class="panel" style="max-width:600px;margin:0 auto">
+  <div class="panel-header"><h3>Select a patient to view analytics</h3></div>
+  {% if patients %}
+  <div class="patient-list">
+    {% for p in patients %}
+    <a href="{% url 'analytics:patient_analytics' p.pk %}" class="patient-row">
+      <div class="patient-avatar">{{ p.first_name|slice:":1"|upper }}{{ p.last_name|slice:":1"|upper }}</div>
+      <div class="patient-info">
+        <strong>{{ p.first_name }} {{ p.last_name }}</strong>
+        <span>@{{ p.username }}</span>
+      </div>
+      <div class="patient-arrow">›</div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">No patients assigned to you.</div>
+  {% endif %}
+</div>
+{% endblock %}
