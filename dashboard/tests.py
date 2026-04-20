@@ -87,6 +87,11 @@ class DashboardAccessTests(TestCase):
             frame=self.frame_unassigned,
             text="Need review",
         )
+        self.comment_mismatched_frame = Comment.objects.create(
+            patient=self.patient_assigned,
+            frame=self.frame_unassigned,
+            text="Mismatched frame relation",
+        )
 
     def test_limited_clinician_cannot_read_unassigned_metrics(self):
         self.client.login(username="clin_limited", password="pass123")
@@ -118,3 +123,13 @@ class DashboardAccessTests(TestCase):
         self.comment_unassigned.refresh_from_db()
         self.assertEqual(self.comment_unassigned.clinician_reply, "")
         self.assertIsNone(self.comment_unassigned.reply_by)
+
+    def test_clinician_reply_is_blocked_when_comment_frame_patient_mismatch(self):
+        self.client.login(username="clin_limited", password="pass123")
+        url = reverse("dashboard:clinician_reply", kwargs={"pk": self.comment_mismatched_frame.pk})
+        response = self.client.post(url, {"reply": "Please reposition regularly."})
+        self.assertEqual(response.status_code, 302)
+
+        self.comment_mismatched_frame.refresh_from_db()
+        self.assertEqual(self.comment_mismatched_frame.clinician_reply, "")
+        self.assertIsNone(self.comment_mismatched_frame.reply_by)

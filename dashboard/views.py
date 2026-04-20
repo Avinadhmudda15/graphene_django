@@ -126,16 +126,23 @@ class ClinicianPatientView(View):
 @method_decorator([login_required, role_required('clinician')], name='dispatch')
 class ClinicianReplyView(View):
     def post(self, request, pk):
-        comment = get_object_or_404(Comment, pk=pk)
+        comment = get_object_or_404(
+            Comment.objects.select_related("patient", "frame"),
+            pk=pk,
+            patient__role="patient",
+        )
         if not request.user.can_access_patient_data(comment.patient):
             messages.error(request, 'You cannot reply to this patient feedback.')
+            return redirect('dashboard:clinician_home')
+        if comment.frame and comment.frame.patient_id != comment.patient_id:
+            messages.error(request, 'Feedback data is inconsistent; reply blocked.')
             return redirect('dashboard:clinician_home')
         reply   = request.POST.get('reply','').strip()
         if reply:
             comment.clinician_reply = reply
             comment.reply_by = request.user
             comment.reply_at = timezone.now()
-            comment.save()
+            comment.save(update_fields=['clinician_reply', 'reply_by', 'reply_at'])
             messages.success(request, 'Reply sent.')
         return redirect('dashboard:clinician_patient', pk=comment.patient.pk)
 
