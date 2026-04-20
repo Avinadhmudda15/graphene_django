@@ -12,13 +12,13 @@ class User(AbstractUser):
 
     def can_access_patient_data(self, patient):
         """View/upload sensor data for this patient (RBAC)."""
-        if patient.role != 'patient':
+        if not patient or patient.role != 'patient':
             return False
-        if self.role == 'admin':
+        if self.is_admin_role():
             return True
-        if self.role == 'patient':
+        if self.is_patient():
             return self.pk == patient.pk
-        if self.role == 'clinician':
+        if self.is_clinician():
             profile = getattr(self, 'clinician_profile', None)
             if profile and profile.can_view_all_patients:
                 return True
